@@ -11,7 +11,7 @@ The library will contain these RL algorithms:
 |                  | Q-learning                                                   |                                               |      |
 |                  | n-step SARSA                                                 |                                               |      |
 |                  | n-step Q-learning                                            |                                               |      |
-| 资格迹 eligible trace          |前向算法TD(λ)                                                | 暂定清华大学出版社《强化学习》第6章里的风格子 |      |
+| 资格迹 eligible trace         |前向算法TD(λ)                                                | 暂定清华大学出版社《强化学习》第6章里的风格子 |      |
 |                  | 后向TD(λ)                                                    |                                               |      |
 |                  | 前向SARSA(λ)                                                 |                                               |      |
 |                  | 后向SARSA(λ)                                                 |                                               |      |
