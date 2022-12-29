@@ -50,7 +50,7 @@ The library will contain these RL algorithms:
 | 确定性策略DPG    | on-policy 确定性AC                                           | Pendulum                                      |      |
 |                  | off-policy 确定性AC                                          |                                               |      |
 |                  | DDPG                                                         |                                               |      |
-| 学习与规划       | Dyna-Q                                                       | CliffWalking                                  |      |
+| 学习与规划learning and plan | Dyna-Q                                                       | CliffWalking                                  |      |
 |                  | Dyna-Q+                                                      |                                               |      |
 |                  | 优先级扫描的Dyna-Q                                           |                                               |      |
 |                  | Dyna-2                                                       |                                               |      |
