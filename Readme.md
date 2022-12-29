@@ -35,7 +35,7 @@ The library will contain these RL algorithms:
 | 值函数非线性逼近 | DQN                                                          | 飞翔的小鸟 breakout                           |      |
 |                  | Double DQN                                                   |                                               |      |
 |                  | Dueling DQN                                                  |                                               |      |
-| 策略梯度         | REINFORCE                                                    | MountainCar                                   |      |
+| 策略梯度policy gradient | REINFORCE                                                    | MountainCar                                   |      |
 |                  | REINFORCE with baseline                                      |                                               |      |
 |                  | TRPO                                                         |                                               |      |
 |                  | PPO                                                          |                                               |      |
