@@ -7,7 +7,7 @@ The library will contain these RL algorithms:
 | 蒙特卡罗评估 MC  | on-policy version                                            | 十点半 half ten                               |      |
 |                  | off-policy version                                           |                                               |      |
 |                  | 加权重要性off-policy版本                                     |                                               |      |
-| 时序差分         | SARSA                                                        | 动手学强化学习里提到的FreezeLake              |      |
+| 时序差分TD       | SARSA                                                        | 动手学强化学习里提到的FreezeLake              |      |
 |                  | Q-learning                                                   |                                               |      |
 |                  | n-step SARSA                                                 |                                               |      |
 |                  | n-step Q-learning                                            |                                               |      |
@@ -60,11 +60,11 @@ The library will contain these RL algorithms:
 
 
 
-			
-			
-			
-			
-			
-			
-			
-			
+
+​			
+​			
+​			
+​			
+​			
+​			
+​			
