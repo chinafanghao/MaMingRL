@@ -47,7 +47,7 @@ The library will contain these RL algorithms:
 |                  | 异步SARSA                                                    |                                               |      |
 |                  | 异步n-step Q-learning                                        |                                               |      |
 |                  | A3C                                                          |                                               |      |
-| 确定性策略       | on-policy 确定性AC                                           | Pendulum                                      |      |
+| 确定性策略DPG    | on-policy 确定性AC                                           | Pendulum                                      |      |
 |                  | off-policy 确定性AC                                          |                                               |      |
 |                  | DDPG                                                         |                                               |      |
 | 学习与规划       | Dyna-Q                                                       | CliffWalking                                  |      |
