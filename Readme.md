@@ -58,6 +58,8 @@ The library will contain these RL algorithms:
 |                  | linear decaying epsilon greedy     |                                               | √           | utils/explore_discrete_action |
 |                                              | UCB1                                                         |                                               | √ | utils/explore_discrete_action |
 |                                              | Thompson Sampling                                            |                                               | √ | Solver/BanditSolver |
+| DP                                           | policy iteration                                             | frozenLake                                    | |  |
+|  | value iteration |  | |  |
 | 博弈强化学习 | AlphaGo Zero | 五子棋 | |  |
 |  |  |  | |  |
 
