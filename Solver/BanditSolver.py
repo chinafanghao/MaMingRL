@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from utils.explore_discrete_action import  naive_epsilon_greedy
 
 class Solver:
-    def __int__(self,bandit):
+    def __init__(self,bandit):
         self.bandit=bandit
         self.counts=np.zeros(self.bandit.K)
         self.regret=0  #后悔值,regret value
@@ -10,7 +11,7 @@ class Solver:
         self.regrets=[]
 
     def update_regret(self,k):
-        self.regret+=self.bandit.best_prob-self.bandit.prob[k]
+        self.regret+=self.bandit.best_prob-self.bandit.probs[k]
         self.regrets.append(self.regret)
 
     def run_one_step(self):
@@ -28,20 +29,22 @@ class Solver:
         plt.xlabel('Time step')
         plt.ylabel('Cumulative regrets')
         plt.title('{}-armed bandit'.format(self.bandit.K))
-        plt.legend()
         plt.show()
 
 class EpsilonGreedy(Solver):
-    def __int__(self,bandit,epsilon=1e-2,init_prob=1.0):
-        super(EpsilonGreedy,self).__int__(bandit)
+    def __init__(self,bandit,epsilon=1e-2,init_prob=1.0):
+        super(EpsilonGreedy,self).__init__(bandit)
         self.epsilon=epsilon
-        self.estimates=self.array([init_prob]*self.bandit.K)
+        self.estimates=np.array([init_prob]*self.bandit.K)
 
     def run_one_step(self):
+        '''
         if np.random.rand()<self.epsilon:
             k=np.random.randint(0,self.bandit.K)
         else:
             k=np.argmax(self.estimates)
+        '''
+        k=naive_epsilon_greedy(self.estimates,self.epsilon)
         r=self.bandit.step(k)
         self.estimates[k]=1./(self.counts[k]+1)*(r-self.estimates[k])
         return k

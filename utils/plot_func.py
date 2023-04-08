@@ -5,9 +5,9 @@ def plot_regret(solvers,solvers_name):
         return
     for idx,solver in enumerate(solvers):
         l=range(len(solver.regrets))
-        plt.plot(l,solver.regrets)
+        plt.plot(l,solver.regrets,label=solvers_name[idx])
     plt.xlabel('Time step')
     plt.ylabel('Cumulative regrets')
-    plt.title('{}-armed bandit'.format(solver[0].bandit.K))
+    plt.title('{}-armed bandit'.format(solvers[0].bandit.K))
     plt.legend()
     plt.show()

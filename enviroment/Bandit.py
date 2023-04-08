@@ -24,12 +24,12 @@ Multi-Armed Bandit
 class MulitiBandit:
     def __init__(self,K):
         self.K=K
-        self.prob=np.random.uniform(K)
-        self.best_id=np.argmax(self.prob)
-        self.best_prob=np.max(self.prob)
+        self.probs=np.random.uniform(size=K)
+        self.best_id=np.argmax(self.probs)
+        self.best_prob=self.probs[self.best_id]
 
     def step(self,k):
-        if np.random.rand()<=self.prob[k]:
+        if np.random.rand()<self.probs[k]:
             return 1
         else:
             return 0
