@@ -32,20 +32,20 @@ class Solver:
         plt.show()
 
 class EpsilonGreedy(Solver):
-    def __init__(self,bandit,epsilon=1e-2,init_prob=1.0):
+    def __init__(self,bandit,epsilon=0.01,init_prob=1.0):
         super(EpsilonGreedy,self).__init__(bandit)
         self.epsilon=epsilon
         self.estimates=np.array([init_prob]*self.bandit.K)
 
     def run_one_step(self):
         '''
-        if np.random.rand()<self.epsilon:
+        if np.random.random()<self.epsilon:
             k=np.random.randint(0,self.bandit.K)
         else:
             k=np.argmax(self.estimates)
         '''
         k=naive_epsilon_greedy(self.estimates,self.epsilon)
         r=self.bandit.step(k)
-        self.estimates[k]=1./(self.counts[k]+1)*(r-self.estimates[k])
+        self.estimates[k]+=1./(self.counts[k]+1)*(r-self.estimates[k])
         return k
 

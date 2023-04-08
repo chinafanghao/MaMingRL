@@ -6,7 +6,8 @@ import numpy as np
 np.random.seed(1)
 K=10
 bandit=Bandit.MulitiBandit(K)
-solver=BanditSolver.EpsilonGreedy(bandit)
+np.random.seed(1)
+solver=BanditSolver.EpsilonGreedy(bandit,epsilon=0.01)
 solver.run(5000)
 solver.plot_regret()
 
