@@ -4,13 +4,16 @@ from utils import plot_func
 import numpy as np
 
 func=[BanditSolver.EpsilonGreedy,BanditSolver.DecayingEpsilonGreedy]
+coefs=[{'epsilon':0.01},{}]
+func_name=['EpsilonGreedy','DecayingEpsilongGreedy']
 np.random.seed(1)
 K=10
 bandit=Bandit.MulitiBandit(K)
-np.random.seed(1)
-solver=func[1](bandit)
-solver.run(5000)
-solver.plot_regret()
+for id,f in enumerate(func):
+    np.random.seed(1)
+    solver=f(bandit,**coefs[id])
+    solver.run(5000)
+    solver.plot_regret(func_name[id])
 
 np.random.seed(0)
 epsilons=[1e-4,1e-2,0.1,0.25,0.5]

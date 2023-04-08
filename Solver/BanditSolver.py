@@ -24,11 +24,12 @@ class Solver:
             self.actions.append(k)
             self.update_regret(k)
 
-    def plot_regret(self):
-        plt.plot(range(len(self.regrets)),self.regrets)
+    def plot_regret(self,name=''):
+        plt.plot(range(len(self.regrets)),self.regrets,label=name)
         plt.xlabel('Time step')
         plt.ylabel('Cumulative regrets')
         plt.title('{}-armed bandit'.format(self.bandit.K))
+        plt.legend()
         plt.show()
 
 class EpsilonGreedy(Solver):
