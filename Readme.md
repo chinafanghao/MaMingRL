@@ -56,7 +56,7 @@ The library will contain these RL algorithms:
 |                  | Dyna-2                                                       |                                               |      |  |
 | 探索与利用 <br />exploration vs exploitation | epsilon-greedy                                           | 多臂老虎机                                    | √ | Solver/explore_discrete_action |
 |                  | linear decaying epsilon greedy     |                                               | √           | Solver/explore_discrete_action |
-|                                              | UCB1                                                         |                                               |      |  |
+|                                              | UCB1                                                         |                                               | √ | Solver/explore_discrete_action |
 |                                              | Thompson Sampling                                            |                                               | |  |
 | 博弈强化学习 | AlphaGo Zero | 五子棋 | |  |
 |  |  |  | |  |

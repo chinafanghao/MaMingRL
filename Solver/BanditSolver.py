@@ -65,3 +65,32 @@ class DecayingEpsilonGreedy(Solver):
         self.estimates[k]+=1./(self.counts[k]+1)*(r-self.estimates[k])
         return k
 
+class UCBaction(Solver):
+    def __init__(self,bandit,coef,init_pro=1.0):
+        super(UCBaction,self).__init__(bandit)
+        self.total_counts=0
+        self.estimates=np.array([init_pro]*self.bandit.K)
+        self.coef=coef
+    def run_one_step(self):
+        self.total_counts+=1
+        k=UCB_action(self.estimates,self.counts,self.total_counts,self.coef)
+        r=self.bandit.step(k)
+        self.estimates[k]+=1./(self.counts[k]+1)*(r-self.estimates[k])
+        return k
+
+class ThompsonSampling(Solver):
+    def __init__(self,bandit):
+        super(ThompsonSampling,self).__init__(bandit)
+        self._a=np.ones(self.bandit.K)
+        self._b=np.ones(self.bandit.K)
+
+    def run_one_step(self):
+        samples=np.random.beta(self._a,self._b)
+        k=np.argmax(samples)
+        r=self.bandit.step(k)
+
+        self._a[k]+=r
+        self._b[k]+=1-r
+        return k
+
+
