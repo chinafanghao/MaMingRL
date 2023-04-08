@@ -16,3 +16,7 @@ def bolzman_action(q_a):
     exp_q_a=np.exp(q_a-np.max(q_a))
     exp_q_a/=np.sum(exp_q_a)
     return np.random.choice(list(range(len(q_a))),p=exp_q_a)
+
+def UCB_action(q_a,counts,total_counts,coef):
+    ucb=q_a+coef*np.sqrt(np.log(total_counts)/(2*(counts+1)))
+    return np.argmax(ucb)

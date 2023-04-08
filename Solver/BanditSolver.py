@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from utils.explore_discrete_action import  naive_epsilon_greedy
+from utils.explore_discrete_action import  naive_epsilon_greedy,step_len_greedy,UCB_action
 
 class Solver:
     def __init__(self,bandit):
@@ -45,6 +45,21 @@ class EpsilonGreedy(Solver):
             k=np.argmax(self.estimates)
         '''
         k=naive_epsilon_greedy(self.estimates,self.epsilon)
+        r=self.bandit.step(k)
+        self.estimates[k]+=1./(self.counts[k]+1)*(r-self.estimates[k])
+        return k
+
+class DecayingEpsilonGreedy(Solver):
+    def __init__(self,bandit,init_prob=1.0):
+        super(DecayingEpsilonGreedy,self).__init__(bandit)
+        self.total_counts=0
+        self.estimates=np.array([init_prob]*self.bandit.K)
+        self.regret=0
+        self.actions=[]
+        self.regrets=[]
+    def run_one_step(self):
+        self.total_counts+=1
+        k=step_len_greedy(self.estimates,self.total_counts)
         r=self.bandit.step(k)
         self.estimates[k]+=1./(self.counts[k]+1)*(r-self.estimates[k])
         return k

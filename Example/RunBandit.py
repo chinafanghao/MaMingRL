@@ -3,11 +3,12 @@ from Solver import BanditSolver
 from utils import plot_func
 import numpy as np
 
+func=[BanditSolver.EpsilonGreedy,BanditSolver.DecayingEpsilonGreedy]
 np.random.seed(1)
 K=10
 bandit=Bandit.MulitiBandit(K)
 np.random.seed(1)
-solver=BanditSolver.EpsilonGreedy(bandit,epsilon=0.01)
+solver=func[1](bandit)
 solver.run(5000)
 solver.plot_regret()
 
