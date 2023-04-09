@@ -20,4 +20,5 @@ actions=['<','v','>','^']
 theta=1e-5
 gamma=0.9
 agent=PolicyIteration(env,theta,gamma)
-agent.polity_iteration()
+agent.policy_iteration()
+agent.plot_agent(holes,ends)
