@@ -59,7 +59,7 @@ The library will contain these RL algorithms:
 |                                              | UCB1                                                         |                                               | √ | utils/explore_discrete_action |
 |                                              | Thompson Sampling                                            |                                               | √ | Solver/BanditSolver |
 | DP                                           | policy iteration                                             | frozenLake                                    | √ | Solver/DPIteration |
-|  | value iteration |  | |  |
+|  | value iteration |  | √ | Solver/DPIteration |
 | 博弈强化学习 | AlphaGo Zero | 五子棋 | |  |
 |  |  |  | |  |
 
