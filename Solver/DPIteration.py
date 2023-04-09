@@ -58,7 +58,7 @@ class PolicyIteration:
         print('state value:')
         for i in range(self.env.nrow):
             for j in range(self.env.ncol):
-                print('%6.6s'% self.v[i*self.env.ncol+j],end=' ')
+                print('%6.6s'% ('%.3f' % self.v[i*self.env.ncol+j]),end=' ')
             print()
 
         print('policy:')

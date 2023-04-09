@@ -1,5 +1,6 @@
 import gym
 from Solver.DPIteration import PolicyIteration
+from utils.plot_func import  plot_agent
 env=gym.make('FrozenLake-v1')
 env=env.unwrapped
 
@@ -22,3 +23,4 @@ gamma=0.9
 agent=PolicyIteration(env,theta,gamma)
 agent.policy_iteration()
 agent.plot_agent(holes,ends)
+plot_agent(agent,actions,holes,ends)
