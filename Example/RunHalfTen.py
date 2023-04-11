@@ -57,8 +57,7 @@ def run_onpolicy_mc_control_epsilon_greedy(env,num_episodes,gamma=1.0,epsilon=0.
         elif p_num==3:action_3_pcard.append(item)
         elif p_num==4:action_4_pcard.append(item)
 
-        print('current card sum is {:.1},card number is {},\
-        face card num is {},best policy is{}'.format(item['x'],item['y'],item['p_num'],policy_content[item['z']]))
+        print('current card sum is {:.1f},card number is {}, face card num is {},best policy is {}'.format(score,card_num,p_num,policy_content[best_action]))
 
     plot_3D_HalfTen(action_0_pcard, '0 face card best strategy','policy')
     plot_3D_HalfTen(action_1_pcard, '1 face card best strategy', 'policy')
@@ -69,6 +68,6 @@ def run_onpolicy_mc_control_epsilon_greedy(env,num_episodes,gamma=1.0,epsilon=0.
 
     result.sort(key=lambda obj:obj.get('x'),reverse=False)
     for temp in result:
-        print('current card sum is {:.1},card number is {},face card num is {},best policy is{}'.format(temp['x'],temp['y'],temp['p_num'],policy_content[temp['z']]))
+        print('current card sum is {:.1f},card number is {},face card num is {},best policy is {}'.format(temp['x'],temp['y'],temp['p_num'],policy_content[temp['z']]))
 
-run_onpolicy_mc_control_epsilon_greedy(env,500000)
+run_onpolicy_mc_control_epsilon_greedy(env,100000)

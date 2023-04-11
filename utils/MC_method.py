@@ -38,6 +38,7 @@ def mc_control_epsilon_greedy(env,num_episodes,gamma=1.0,epsilon=0.1,alpha=0.1,m
         sa_in_episode=[(tuple(x[0]),x[1]) for x in episode]
 
         for state,action in sa_in_episode:
+            #First Visit MC
             first_occurence_id=next(i for i,x in enumerate(episode) if x[0]==state and x[1]==action)
 
             G=sum([x[2]*(gamma**i) for i,x in enumerate(episode[first_occurence_id:])])

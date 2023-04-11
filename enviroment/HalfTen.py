@@ -145,6 +145,7 @@ class HalfTenEnv(gym.Env):
         if action:
             self.player += self.draw_hand()
             types, reward, done = hand_types(self.player)
+            if get_card_num(self.player)==5:done=True
         else:
             done = True
             self.dealer = self.draw_hand()
@@ -175,7 +176,7 @@ class HalfTenEnv(gym.Env):
         return sum_card(self.player), get_card_num(self.player), get_p_num(self.player)
 
     def reset(self):
-        self.cards = [0] * card_nums
+        self.cards = [0] * self.card_nums
         self.player = self.draw_hand()
         return self._get_obs()
 
