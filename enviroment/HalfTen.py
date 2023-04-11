@@ -132,6 +132,7 @@ class HalfTenEnv(gym.Env):
             spaces.Discrete(5),  # number of cards
             spaces.Discrete(6)  # number of face cards
         ))
+        self.nA=2
         self.card_nums = card_nums
         self._seed()
         self.reset()

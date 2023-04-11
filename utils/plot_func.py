@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-
+from matplotlib.ticker import  MultipleLocator,FormatStrFormatter
 def plot_regret(solvers,solvers_name):
     #if len(solvers)==0:
     #    return
@@ -33,3 +33,51 @@ def plot_agent(agent,action_meaning,disaster=[],end=[]):
                     pi_str+=action_meaning[k] if a[k]>0 else 'o'
                 print(pi_str,end=' ')
         print()
+
+def plot_3D_HalfTen(datas,tile,zlabel='return'):
+
+    plt.rcParams['font.sans-serif']=['SimHei']
+    plt.rcParams['font.family']='sans-serif'
+    plt.rcParams['axes.unicode_minus']=False
+
+    xmajorLocator=MultipleLocator(0.5)
+    xmajorFormatter=FormatStrFormatter('%1.1f')
+
+    ymajorLocator=MultipleLocator(1)
+    ymajorFormatter=FormatStrFormatter('%d')
+
+    zmajorLocator=MultipleLocator(1)
+    zmajorFormatter=FormatStrFormatter('%d')
+
+    fig=plt.figure()
+    fig.suptitle(tile)
+    fig.set_size_inches(18.5,10.5)
+
+    ax=fig.add_subplot(111,projection='3d')
+    axisX=[]
+    axisY=[]
+    axisZ=[]
+
+    ax.set_xlim(0.5,10.5)
+    ax.set_ylim(1,5)
+    ax.set_zlim(0,1)
+
+    ax.xaxis.set_major_locator(xmajorLocator)
+    ax.xaxis.set_major_formatter(xmajorFormatter)
+
+    ax.yaxis.set_major_locator(ymajorLocator)
+    ax.yaxis.set_major_formatter(ymajorFormatter)
+
+    ax.zaxis.set_major_locator(zmajorLocator)
+    ax.zaxis.set_major_formatter(zmajorFormatter)
+
+    for data in datas:
+        axisX.append(data['x'])
+        axisY.append(data['y'])
+        axisZ.append(data['z'])
+
+    ax.scatter(axisX,axisY,axisZ)
+    ax.set_xlabel("player's score")
+    ax.set_ylabel("player's cards number")
+    ax.set_zlabel(zlabel)
+
