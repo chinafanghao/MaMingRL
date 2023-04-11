@@ -4,7 +4,7 @@ The library will contain these RL algorithms:
 
 | 算法algorithm    | 算法版本 algorithm version                                   | 实现的环境 env                                | 进度 status | 位置position |
 | ---------------- | ------------------------------------------------------------ | --------------------------------------------- | ---- | ---------------- |
-| 蒙特卡罗评估 MC  | on-policy version                                            | 十点半 half ten                               |      |  |
+| 蒙特卡罗评估 MC  | on-policy version                                            | 十点半 half ten                               | √ | /utils/MC_method |
 |                  | off-policy version                                           |                                               |      |  |
 |                  | weighted importance off-policy version         |                                               |      |  |
 | 时序差分TD       | SARSA                                                        | FreezeLake              |      |  |
