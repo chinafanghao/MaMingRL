@@ -134,7 +134,7 @@ class HalfTenEnv(gym.Env):
         ))
         self.card_nums = card_nums
         self._seed()
-        self._reset()
+        self.reset()
 
     def step(self, action):
         assert self.action_space.contains(action)
@@ -164,7 +164,7 @@ class HalfTenEnv(gym.Env):
                     if result:
                         reward = -1
                         break
-            return self._get_obs(),reward,done,{}
+        return self._get_obs(),reward,done,{}
 
     def _seed(self, seed=None):
         self.np_random, self.seed = seeding.np_random(seed)
