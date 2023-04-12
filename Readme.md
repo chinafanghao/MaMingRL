@@ -6,7 +6,7 @@ The library will contain these RL algorithms:
 | ---------------- | ------------------------------------------------------------ | --------------------------------------------- | ---- | ---------------- |
 | 蒙特卡罗评估 MC  | on-policy version                                            | 十点半 half ten                               | √ | /utils/MC_method |
 |                  | off-policy version                                           |                                               |      |  |
-|                  | weighted importance off-policy version         |                                               |      |  |
+|                  | weighted importance off-policy version         |                                               | √ | /utils/MC_method |
 | 时序差分TD       | SARSA                                                        | FreezeLake              |      |  |
 |                  | Q-learning                                                   |                                               |      |  |
 |                  | n-step SARSA                                                 |                                               |      |  |
