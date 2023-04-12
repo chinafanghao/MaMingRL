@@ -5,7 +5,7 @@ if "../" not in sys.path:
 from enviroment import HalfTen
 import matplotlib.pyplot as plt
 import numpy as np
-from utils.MC_method import mc_control_epsilon_greedy,mc_control_importance_sampling,make_random_policy
+from utils.MC_method import mc_control_epsilon_greedy,mc_control_weighted_importance_sampling,make_random_policy,make_episilon_greedy_policy,mc_control_unweigthed_importance_sampling
 from utils.plot_func import plot_3D_HalfTen
 env=HalfTen.HalfTenEnv()
 
@@ -20,7 +20,7 @@ def random_strategy(observation):
     card_sum, card_num, face_num = observation
     return 0 if card_sum>=10 or card_num>=5 else 1
 
-def run_random_strateg():
+def run_random_strategy():
     for i_episode in range(20):
         observation=env.reset()
         for t in range(100):
@@ -36,12 +36,14 @@ def run_random_strateg():
                 print('*'*50)
                 break
 
-def run_onpolicy_mc_control_epsilon_greedy(env,mc_strategy,num_episodes,gamma=1.0,epsilon=0.1,alpha=0.1,max_episodes_len=1000):
+def run_mc_control(env,mc_strategy,num_episodes,gamma=1.0,epsilon=0.1,alpha=0.1,max_episodes_len=1000):
     if callable(mc_strategy) and mc_strategy==mc_control_epsilon_greedy:
         Q,policy=mc_strategy(env,num_episodes,gamma,epsilon,alpha,max_episodes_len)
-    elif callable(mc_strategy) and mc_strategy==mc_control_importance_sampling:
+    elif callable(mc_strategy) and mc_strategy==mc_control_weighted_importance_sampling:
         random_policy=make_random_policy(env.action_space.n)
         Q, policy = mc_strategy(env,random_policy, num_episodes, gamma, max_episodes_len)
+    elif callable(mc_strategy) and mc_strategy==mc_control_unweigthed_importance_sampling:
+        Q,policy=mc_strategy(env,num_episodes,gamma,epsilon,max_episodes_len)
     policy_content=['stop call','call card']
 
     action_0_pcard=[]
@@ -78,6 +80,7 @@ def run_onpolicy_mc_control_epsilon_greedy(env,mc_strategy,num_episodes,gamma=1.
     for temp in result:
         print('current card sum is {:.1f},card number is {},face card num is {},best policy is {}'.format(temp['x'],temp['y'],temp['p_num'],policy_content[temp['z']]))
 
-
-#run_onpolicy_mc_control_epsilon_greedy(env,mc_control_epsilon_greedy,100000)
-run_onpolicy_mc_control_epsilon_greedy(env,mc_control_importance_sampling,100000)
+#run_random_strategy()
+#run_mc_control(env,mc_control_epsilon_greedy,100000)
+#run_mc_control(env,mc_weighted_control_importance_sampling,100000)
+run_mc_control(env,mc_control_unweigthed_importance_sampling,500000)
