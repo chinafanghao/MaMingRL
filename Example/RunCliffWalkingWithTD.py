@@ -36,6 +36,6 @@ def run_Qlearning(env,gamma,lr,epsilon,action_space,episode_num):
   solver.run(episode_num)
   solver.plot_score('Qlearning one step')
   solver.plot_agent(disaster, ends)
-#run_one_step_SARSA(env,gamma,lr,epsilon,action_space,1000)
-#run_n_step_SARSA(env,5,gamma,lr,epsilon,action_space,500)
+run_one_step_SARSA(env,gamma,lr,epsilon,action_space,1000)
+run_n_step_SARSA(env,5,gamma,lr,epsilon,action_space,500)
 run_Qlearning(env,gamma,lr,epsilon,action_space,1000)

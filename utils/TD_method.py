@@ -84,7 +84,7 @@ class SARSA_one_step(RL_brain):
             #self.check_state_exist(next_state)
             next_action = self.chose_action(next_state)
             score+=reward
-            TD_error=reward+self.gamma*self.Q_table[next_state][next_action]-self.Q_table[state][action]
+            TD_error=reward+self.gamma*self.Q_table[next_state][next_action]*(1-done)-self.Q_table[state][action]
             self.Q_table[state][action]+=self.learning_rate*TD_error
             state=next_state
             action=next_action
@@ -113,15 +113,14 @@ class SARSA_n_step(RL_brain):
             R.append(reward)
             next_action=self.chose_action(next_state)
             if len(S)==self.n_step:
-                G=np.sum([R[i]*self.gammas[i] for i in range(len(S))])+self.gammas[len(S)]*self.Q_table[next_state][next_action]
+                G=np.sum([R[i]*self.gammas[i] for i in range(len(S))])+self.gammas[len(S)]*self.Q_table[next_state][next_action]*(1-done)
                 self.Q_table[S[0]][A[0]]+=self.learning_rate*(G-self.Q_table[S[0]][A[0]])
                 S.pop(0)
                 A.pop(0)
                 R.pop(0)
             if done:
                 while len(S)>0:
-                    G = np.sum([R[i] * self.gammas[i] for i in range(len(S))]) + self.gammas[len(S)] * \
-                        self.Q_table[next_state][next_action]
+                    G = np.sum([R[i] * self.gammas[i] for i in range(len(S))])
                     self.Q_table[S[0]][A[0]] += self.learning_rate * (G - self.Q_table[S[0]][A[0]])
                     S.pop(0)
                     A.pop(0)
@@ -145,6 +144,6 @@ class Qlearning(RL_brain):
             action=self.chose_action(state)
             next_state,reward,done,_=self.env.step(action)
             score+=reward
-            self.Q_table[state][action]+=self.learning_rate*(reward+self.gamma*np.max(self.Q_table[next_state])-self.Q_table[state][action])
+            self.Q_table[state][action]+=self.learning_rate*(reward+self.gamma*np.max(self.Q_table[next_state])*(1-done)-self.Q_table[state][action])
             state=next_state
         self.score.append(score)
