@@ -89,3 +89,47 @@ class SARSA_one_step(RL_brain):
             state=next_state
             action=next_action
         self.score.append(score)
+
+class SARSA_n_step(RL_brain):
+    def __init__(self,env,n_step,gamma,learning_rate,epsilon,action_space):
+        super(SARSA_n_step,self).__init__(env,gamma,learning_rate,action_space)
+        self.epsilon=epsilon
+        self.n_step=n_step
+        self.gammas=[self.gamma**i for i in range(n_step+1)]
+
+    def run_one_episode(self):
+        state=self.env.reset()
+        action=self.chose_action(state)
+        done=False
+        score=0
+        S=[]
+        A=[]
+        R=[]
+        while not done:
+            S.append(state)
+            A.append(action)
+            next_state,reward,done,_=self.env.step(action)
+            score+=reward
+            R.append(reward)
+            next_action=self.chose_action(next_state)
+            if len(S)==self.n_step:
+                G=np.sum([R[i]*self.gammas[i] for i in range(len(S))])+self.gammas[len(S)]*self.Q_table[next_state][next_action]
+                self.Q_table[S[0]][A[0]]+=self.learning_rate*(G-self.Q_table[S[0]][A[0]])
+                S.pop(0)
+                A.pop(0)
+                R.pop(0)
+            if done:
+                while len(S)>0:
+                    G = np.sum([R[i] * self.gammas[i] for i in range(len(S))]) + self.gammas[len(S)] * \
+                        self.Q_table[next_state][next_action]
+                    self.Q_table[S[0]][A[0]] += self.learning_rate * (G - self.Q_table[S[0]][A[0]])
+                    S.pop(0)
+                    A.pop(0)
+                    R.pop(0)
+                break
+            state=next_state
+            action=next_action
+
+        self.score.append(score)
+
+

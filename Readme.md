@@ -9,7 +9,7 @@ The library will contain these RL algorithms:
 |                  | weighted importance off-policy version         |                                               | √ | /utils/MC_method |
 | 时序差分TD       | 1-step SARSA                                                | CliffWalking | √ | /utils/TD_method |
 |                  | Q-learning                                                   |                                               |      |  |
-|                  | n-step SARSA                                                 |                                               |      |  |
+|                  | n-step SARSA                                                 |                                               | √ | /utils/TD_method |
 |                  | n-step Q-learning                                            |                                               |      |  |
 | 资格迹 eligible trace         |forward TD(λ)                                                | 暂定清华大学出版社《强化学习》第6章里的风格子 |      |  |
 |                  | backward TD(λ)                                           |                                               |      |  |
