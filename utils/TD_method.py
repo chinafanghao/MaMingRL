@@ -132,4 +132,19 @@ class SARSA_n_step(RL_brain):
 
         self.score.append(score)
 
+class Qlearning(RL_brain):
+    def __init__(self,env,gamma,learning_rate,epsilon,action_space):
+        super(Qlearning,self).__init__(env,gamma,learning_rate,action_space)
+        self.epsilon=epsilon
 
+    def run_one_episode(self):
+        state=self.env.reset()
+        done=False
+        score=0
+        while not done:
+            action=self.chose_action(state)
+            next_state,reward,done,_=self.env.step(action)
+            score+=reward
+            self.Q_table[state][action]+=self.learning_rate*(reward+self.gamma*np.max(self.Q_table[next_state])-self.Q_table[state][action])
+            state=next_state
+        self.score.append(score)
