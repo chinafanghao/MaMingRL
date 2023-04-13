@@ -1,3 +1,7 @@
+import sys
+if "../" not in sys.path:
+  sys.path.append("../")
+
 import gym
 from Solver.DPIteration import PolicyIteration,Value_iteration
 from utils.plot_func import  plot_agent
