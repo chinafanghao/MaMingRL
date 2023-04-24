@@ -4,7 +4,7 @@ if "../" not in sys.path:
   sys.path.append("../")
 
 from utils.util import BufferReplay,moving_average
-from Solver.DQNSolver import DQN
+from Solver.DQNSolver import DQNs
 
 #from utils.util import BufferReplay
 

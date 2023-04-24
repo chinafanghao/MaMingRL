@@ -32,9 +32,9 @@ The library will contain these RL algorithms:
 |                  | 多项式基函数-批量法-后向TD(λ)参数逼近-Q实现                  |                                               |      |  |
 |                  | 傅里叶基函数                                                 |                                               |      |  |
 |                  | 径向基函数                                                   |                                               |      |  |
-| 值函数非线性逼近 | DQN                                                          | 飞翔的小鸟 breakout                           |      |  |
-|                  | Double DQN                                                   |                                               |      |  |
-|                  | Dueling DQN                                                  |                                               |      |  |
+| 值函数非线性逼近 | DQN                                                          | Pendulumn-v1               | √ | /Solver/DQNSolver |
+|                  | Double DQN                                                   |                                               | √ | /Solver/DQNSolver |
+|                  | Dueling DQN                                                  |                                               | √ | /Solver/DQNSolver |
 | 策略梯度policy gradient | REINFORCE                                                    | MountainCar                                   |      |  |
 |                  | REINFORCE with baseline                                      |                                               |      |  |
 |                  | TRPO                                                         |                                               |      |  |
@@ -50,7 +50,7 @@ The library will contain these RL algorithms:
 | 确定性策略DPG    | on-policy 确定性AC                                           | Pendulum                                      |      |  |
 |                  | off-policy 确定性AC                                          |                                               |      |  |
 |                  | DDPG                                                         |                                               |      |  |
-| 学习与规划<br />learning and plan | Dyna-Q                                                       | CliffWalking                                  |      |  |
+| 学习与规划<br />learning and plan | Dyna-Q                                                       | CliffWalking                                  | √ | /utils/dynaQ |
 |                  | Dyna-Q+                                                      |                                               |      |  |
 |                  | 优先级扫描的Dyna-Q                                           |                                               |      |  |
 |                  | Dyna-2                                                       |                                               |      |  |
