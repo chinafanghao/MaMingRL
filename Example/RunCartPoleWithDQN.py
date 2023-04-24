@@ -1,9 +1,10 @@
 import sys
 
-from MaMingRL.utils.util import BufferReplay,moving_average
-from MaMingRL.Solver.DQNSolver import DQN
 if "../" not in sys.path:
   sys.path.append("../")
+
+from utils.util import BufferReplay,moving_average
+from Solver.DQNSolver import DQN
 
 #from utils.util import BufferReplay
 
@@ -11,7 +12,6 @@ import torch,random
 import matplotlib.pyplot as plt
 import numpy as np
 import gym
-import pygame
 from tqdm import tqdm
 env=gym.make('CartPole-v0')
 
