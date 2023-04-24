@@ -11,7 +11,9 @@ import numpy as np
 import sys,os
 import ujson
 import yaml
-from mamingRL import ROOT_DIR
+from MaMingRL import ROOT_DIR
+import collections
+import random
 
 #正则匹配形如'2018_12_02_082510‘的字符串，并返回
 #Regular matching is like '2018_ 12_ 02_ 082510 and return
@@ -96,3 +98,32 @@ def read(path,**kwargs):
         data=read_as_plain(path,**kwargs)
 
     return data
+
+def moving_average(data,wind_size):
+    data=np.cumsum(np.insert(data,0,0))
+    middle=(data[wind_size:]-data[:-wind_size])/wind_size
+    r=np.arange(1,wind_size)
+    begin=data[:wind_size-1]/r
+    ends=(data[-1]-data[-wind_size:-1])/(r[::-1])
+    return np.concatenate((begin,middle,ends))
+
+
+class BufferReplay:
+    def __init__(self,BufferSize):
+        self.buffer=collections.deque(maxlen=BufferSize)
+        self.buffersize=BufferSize
+
+    def __len__(self):
+        return len(self.buffer)
+
+    def add(self,data):
+        if len(self.buffer)<self.buffersize:
+            self.buffer.append(data)
+        else:
+            self.buffer.popleft()
+            self.buffer.append(data)
+
+    def sample(self,sample_size):
+        transition=random.sample(self.buffer,sample_size)
+        state,action,reward,next_state,done,truncted=zip(*transition)
+        return np.array(state),action,reward,np.array(next_state),done,truncted
