@@ -17,7 +17,7 @@ env=gym.make(env_name)
 
 
 gamma=0.98
-learning_rate=1e-3
+learning_rate=2e-3
 hidden_dim=128
 param_list=[env.observation_space.shape[0],hidden_dim,env.action_space.n]
 device=torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')

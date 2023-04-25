@@ -10,7 +10,7 @@ class QNet(torch.nn.Module):
 
     def forward(self,x):
         x=F.relu(self.fc1(x))
-        return self.fc2(x)
+        return F.softmax(self.fc2(x),dim=1)
 
 class VNet(torch.nn.Module):
     def __init__(self,input_dim,hidden_dim):
@@ -46,19 +46,19 @@ class BaseActorCritic:
         actions=torch.tensor(transition['actions']).view(-1,1).to(self.device)
         rewards=torch.tensor(transition['rewards'],dtype=torch.float32).view(-1,1).to(self.device)
         next_states=torch.tensor(transition['next_states'],dtype=torch.float32).to(self.device)
-        dones=torch.tensor(transition['dones'],dtype=torch.float32).to(self.device)
+        dones=torch.tensor(transition['dones'],dtype=torch.float32).view(-1,1).to(self.device)
 
         self.qOptimizer.zero_grad()
         self.vOptimizer.zero_grad()
-
-        td_target=rewards+self.gamma*self.qnet(next_states)*(1-dones)
-        td_values=self.qnet(states)
-        td_error=td_target-td_values
-        qLoss=-torch.log(self.qnet(states).gather(1,actions))*td_error.detach()
+        td_target=rewards+self.gamma*self.vnet(next_states)*(1-dones)
+        td_values=self.vnet(states)
+        td_error=td_target-self.vnet(states)
+        log_probs=torch.log(self.qnet(states).gather(1,actions))
+        qLoss=torch.mean(-log_probs*td_error.detach())
         qLoss.backward()
         vLoss=torch.mean(F.mse_loss(td_target.detach(),td_values))
         vLoss.backward()
         self.qOptimizer.step()
         self.vOptimizer.step()
-        
+
 
