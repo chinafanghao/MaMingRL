@@ -5,6 +5,7 @@ if "../" not in sys.path:
 
 from utils.util import moving_average
 from Solver.reinforce import REINFORCE,REINFOCEWithBaseline
+from Solver.ActorCritic import BaseActorCritic
 import matplotlib.pyplot as plt
 import torch
 import numpy as np
@@ -13,8 +14,7 @@ from tqdm import tqdm
 
 env_name='CartPole-v1'
 env=gym.make(env_name)
-print(env.reset())
-print(env.step(1))
+
 
 gamma=0.98
 learning_rate=1e-3
@@ -26,6 +26,7 @@ num_episodes=1000
 
 agent1 = REINFORCE(gamma, learning_rate, param_list, device)
 agent2=REINFOCEWithBaseline(gamma,learning_rate,param_list,device)
+agent3=BaseActorCritic(gamma,learning_rate,param_list,device)
 def run(agent):
 
     return_list=[]
@@ -66,4 +67,5 @@ def run(agent):
     plt.title('REINFORCE on CartPole')
     plt.show()
 
-run(agent2)
+#run(agent2)
+run(agent3)
