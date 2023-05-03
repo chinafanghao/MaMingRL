@@ -127,3 +127,12 @@ class BufferReplay:
         transition=random.sample(self.buffer,sample_size)
         state,action,reward,next_state,done,truncted=zip(*transition)
         return np.array(state),action,reward,np.array(next_state),done,truncted
+
+def compuate_GAE(lmbda,gamma,td_delta):
+    advantage=0
+    all_advantage=0
+    for delta in td_delta[::-1]:
+        advantage=lmbda*gamma*advantage+delta
+        all_advantage+=advantage
+    return all_advantage
+
