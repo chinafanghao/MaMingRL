@@ -35,7 +35,7 @@ The library will contain these RL algorithms:
 | 值函数非线性逼近 | DQN                                                          | Pendulumn-v1               | √ | /Solver/DQNSolver |
 |                  | Double DQN                                                   |                                               | √ | /Solver/DQNSolver |
 |                  | Dueling DQN                                                  |                                               | √ | /Solver/DQNSolver |
-| 策略梯度policy gradient | REINFORCE                                                    | MountainCar                                   |      |  |
+| 策略梯度policy gradient | REINFORCE                                                    | CartPole                           | √ | /Solver/reinforce |
 |                  | REINFORCE with baseline                                      |                                               |      |  |
 |                  | TRPO                                                         | CartPole | √ | /Solver/TRPOSolver |
 |                  | PPO                                                          |                                               |      |  |
