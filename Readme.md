@@ -37,7 +37,7 @@ The library will contain these RL algorithms:
 |                  | Dueling DQN                                                  |                                               | √ | /Solver/DQNSolver |
 | 策略梯度policy gradient | REINFORCE                                                    | MountainCar                                   |      |  |
 |                  | REINFORCE with baseline                                      |                                               |      |  |
-|                  | TRPO                                                         |                                               |      |  |
+|                  | TRPO                                                         | CartPole | √ | /Solver/TRPOSolver |
 |                  | PPO                                                          |                                               |      |  |
 | Actor-Critic     | on-policy AC(Critic use TD(0),SARSA,TD(lambda),Q-learning,n-step) | Pendulum                                      |      |  |
 |                  | off-policy AC(Critic use TD(0),SARSA,TD(lambda),Q-learning,n-step) |                                               |      |  |

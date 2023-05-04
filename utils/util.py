@@ -14,6 +14,7 @@ import yaml
 from MaMingRL import ROOT_DIR
 import collections
 import random
+from tqdm import tqdm
 
 #正则匹配形如'2018_12_02_082510‘的字符串，并返回
 #Regular matching is like '2018_ 12_ 02_ 082510 and return
@@ -129,10 +130,40 @@ class BufferReplay:
         return np.array(state),action,reward,np.array(next_state),done,truncted
 
 def compuate_GAE(lmbda,gamma,td_delta):
+    td_delta=td_delta.detach().numpy()
     advantage=0
-    all_advantage=0
+    all_advantage=[]
     for delta in td_delta[::-1]:
         advantage=lmbda*gamma*advantage+delta
-        all_advantage+=advantage
-    return all_advantage
+        all_advantage.append(advantage)
+    all_advantage.reverse()
+    return torch.tensor(all_advantage,dtype=torch.float32)
 
+def train_on_policy_agent(env,agent,num_episodes):
+    return_list=[]
+    for i in range(10):
+        with tqdm(total=int(num_episodes/10),desc='Iteration %d' % i) as pbar:
+            for i_iteration in range(int(num_episodes/10)):
+                episode_return=0
+                done=False
+                state,_=env.reset()
+                transition_dict={'states':[],'actions':[],'rewards':[],'next_states':[],'dones':[],'truncateds':[]}
+                while not done:
+                    action=agent.take_action(state)
+                    next_state,reward,done,truncated,_=env.step(action)
+                    transition_dict['states'].append(state)
+                    transition_dict['actions'].append(action)
+                    transition_dict['rewards'].append(reward)
+                    transition_dict['next_states'].append(next_state)
+                    transition_dict['dones'].append(done)
+                    transition_dict['truncateds'].append(truncated)
+                    episode_return+=reward
+                    if truncated:
+                        break
+                    state=next_state
+                agent.update(transition_dict['states'],transition_dict['actions'],transition_dict['rewards'],transition_dict['next_states'],transition_dict['dones'])
+                return_list.append(episode_return)
+                if (i_iteration+1)%10==0:
+                    pbar.set_postfix({'episode':num_episodes/10*i+i_iteration+1,'return':'%.3f'% np.mean(return_list[-10:])})
+                pbar.update(1)
+    return return_list
