@@ -81,7 +81,7 @@ def plot_3D_HalfTen(datas,tile,zlabel='return'):
     ax.set_ylabel("player's cards number")
     ax.set_zlabel(zlabel)
 
-def plot_return_list(return_list,agent_name):
+def plot_return_list(return_list,agent_name=''):
     plt.plot(range(1,len(return_list)+1),return_list)
     plt.xlabel('Episodes')
     plt.ylabel('Returns')
