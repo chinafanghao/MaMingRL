@@ -109,12 +109,12 @@ class TRPO:
         torch.nn.utils.convert_parameters.vector_to_parameters(new_para,self.policy.parameters())
 
 
-    def update(self,states,actions,rewards,next_states,dones):
-        states=torch.tensor(states,dtype=torch.float32).to(self.device)
-        actions=torch.tensor(actions).view(-1,1).to(self.device)
-        rewards=torch.tensor(rewards,dtype=torch.float32).view(-1,1).to(self.device)
-        next_states=torch.tensor(next_states,dtype=torch.float32).to(self.device)
-        dones=torch.tensor(dones,dtype=torch.float32).view(-1,1).to(self.device)
+    def update(self,transition_dict):
+        states=torch.tensor(transition_dict['states'],dtype=torch.float32).to(self.device)
+        actions=torch.tensor(transition_dict['actions']).view(-1,1).to(self.device)
+        rewards=torch.tensor(transition_dict['rewards'],dtype=torch.float32).view(-1,1).to(self.device)
+        next_states=torch.tensor(transition_dict['next_states'],dtype=torch.float32).to(self.device)
+        dones=torch.tensor(transition_dict['dones'],dtype=torch.float32).view(-1,1).to(self.device)
 
         TD_target=rewards+self.gamma*(1-dones)*self.critic(next_states)
         TD_delta=TD_target-self.critic(states)

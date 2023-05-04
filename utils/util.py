@@ -161,7 +161,7 @@ def train_on_policy_agent(env,agent,num_episodes):
                     if truncated:
                         break
                     state=next_state
-                agent.update(transition_dict['states'],transition_dict['actions'],transition_dict['rewards'],transition_dict['next_states'],transition_dict['dones'])
+                agent.update(transition_dict)
                 return_list.append(episode_return)
                 if (i_iteration+1)%10==0:
                     pbar.set_postfix({'episode':num_episodes/10*i+i_iteration+1,'return':'%.3f'% np.mean(return_list[-10:])})
