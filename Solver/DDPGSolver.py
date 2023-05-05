@@ -4,6 +4,7 @@ import numpy as np
 
 class TwoLayerFC(torch.nn.Module):
     def __init__(self,input_dim,hidden_dim,output_dim,activation=F.relu,out_fn=lambda x:x):
+        super(TwoLayerFC, self).__init__()
         self.fc1=torch.nn.Linear(input_dim,hidden_dim)
         self.fc2=torch.nn.Linear(hidden_dim,hidden_dim)
         self.fc3=torch.nn.Linear(hidden_dim,output_dim)
@@ -17,12 +18,12 @@ class TwoLayerFC(torch.nn.Module):
         return self.out_fn(self.fc3(x))
 
 class DDPG:
-    def __init__(self,gamma,tau,sigma,input_dim,hidden_dim,output_dim,actor_lr,critic_lr,discrete,action_bound,device):
+    def __init__(self,gamma,tau,sigma,num_in_actor,num_out_actor,num_in_critic,hidden_dim,actor_lr,critic_lr,discrete,action_bound,device):
         out_fn=(lambda x:x) if discrete else (lambda x:torch.tanh(x)*action_bound)
-        self.actor=TwoLayerFC(input_dim,hidden_dim,output_dim,activation=F.relu,out_fn=out_fn).to(device)
-        self.actor_target=TwoLayerFC(input_dim,hidden_dim,output_dim,activation=F.relu,out_fn=out_fn).to(device)
-        self.critic=TwoLayerFC(input_dim,hidden_dim,1,activation=F.relu,out_fn=out_fn).to(device)
-        self.critic_target = TwoLayerFC(input_dim, hidden_dim, 1, activation=F.relu, out_fn=out_fn).to(device)
+        self.actor=TwoLayerFC(num_in_actor,hidden_dim,num_out_actor,activation=F.relu,out_fn=out_fn).to(device)
+        self.actor_target=TwoLayerFC(num_in_actor,hidden_dim,num_out_actor,activation=F.relu,out_fn=out_fn).to(device)
+        self.critic=TwoLayerFC(num_in_critic,hidden_dim,1,activation=F.relu).to(device)
+        self.critic_target = TwoLayerFC(num_in_critic, hidden_dim, 1, activation=F.relu).to(device)
         self.actor_target.load_state_dict(self.actor.state_dict())
         self.critic_target.load_state_dict(self.critic.state_dict())
         self.actorOptimizer=torch.optim.Adam(self.actor.parameters(),lr=actor_lr)
@@ -32,18 +33,18 @@ class DDPG:
         self.device=device
         self.tau=tau
         self.sigma=sigma
-        self.action_dim=output_dim
+        self.action_dim=num_out_actor
         self.discrete=discrete
 
     def take_action(self,state):
-        state=torch.tensor(np.array(state),dtype=torch.float32).to(self.device)
+        state=torch.tensor(np.array([state]),dtype=torch.float32).to(self.device)
         action=self.actor(state).item()
         action+=self.sigma*np.random.randn(self.action_dim)
         return action
 
     def soft_update(self,net,target_net):
         for net_para,target_para in zip(net.parameters(),target_net.parameters()):
-            target_para.data.copy_(target_para*(1-self.tau)+net_para*self.tau)
+            target_para.data.copy_(target_para.data*(1-self.tau)+net_para.data*self.tau)
 
     def update(self,transition_dict):
         states=torch.tensor(transition_dict['states'],dtype=torch.float32).to(self.device)
@@ -63,7 +64,7 @@ class DDPG:
         critic_loss.backward()
         self.criticOptimizer.step()
 
-        actor_loss=-torch.mean(self.critic(torch.cat([states,actions],dim=1)))
+        actor_loss=-torch.mean(self.critic(torch.cat([states,self.actor(states)],dim=1)))
         self.actorOptimizer.zero_grad()
         actor_loss.backward()
         self.actorOptimizer.step()
