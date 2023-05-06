@@ -21,22 +21,22 @@ env=gym.make(env_name)
 gamma=0.98
 tau=0.005
 sigma=0.01
-input_dim=env.observation_space.shape[0]
+state_dim=env.observation_space.shape[0]
 hidden_dim=64
-output_dim=env.action_space.shape[0]
+action_dim=env.action_space.shape[0]
 actor_lr=5e-4
 critic_lr=5e-3
 discrete=False
 action_bound=env.action_space.high[0]
 device=torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-agent=DDPG(gamma,tau,sigma,input_dim,hidden_dim,output_dim,actor_lr,critic_lr,discrete,action_bound,device)
+agent=DDPG(gamma,tau,sigma,state_dim,action_dim,state_dim+action_dim,hidden_dim,actor_lr,critic_lr,discrete,action_bound,device)
 
 buffer_size=10000
 batch_size=64
 minimal_size=1000
 buffer=BufferReplay(buffer_size)
-num_episode=200
+num_episode=2000
 
 return_list=train_off_policy_agent(env,agent,num_episode,buffer,minimal_size,batch_size)
 plot_return_list(return_list,'DDPG on Pendulumn')

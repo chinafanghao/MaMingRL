@@ -100,13 +100,13 @@ def read(path,**kwargs):
 
     return data
 
-def moving_average(data,wind_size):
-    data=np.cumsum(np.insert(data,0,0))
-    middle=(data[wind_size:]-data[:-wind_size])/wind_size
-    r=np.arange(1,wind_size)
-    begin=data[:wind_size-1]/r
-    ends=(data[-1]-data[-wind_size:-1])/(r[::-1])
-    return np.concatenate((begin,middle,ends))
+def moving_average(a, window_size):
+    cumulative_sum = np.cumsum(np.insert(a, 0, 0))
+    middle = (cumulative_sum[window_size:] - cumulative_sum[:-window_size]) / window_size
+    r = np.arange(1, window_size-1, 2)
+    begin = np.cumsum(a[:window_size-1])[::2] / r
+    end = (np.cumsum(a[:-window_size:-1])[::2] / r)[::-1]
+    return np.concatenate((begin, middle, end))
 
 
 class BufferReplay:
@@ -179,15 +179,15 @@ def train_off_policy_agent(env,agent,num_episodes,buffer,minimal_size,batch_size
                 while not done:
                     action=agent.take_action(state)
                     next_state,reward,done,truncated,_=env.step(action)
-                    transition_dict={'state':state,'action':action,'reward':reward,'next_state':next_state,'done':done,'truncated':truncated}
-                    buffer.add(transition_dict)
+                    #transition_dict={'states':state,'actions':action,'rewards':reward,'next_states':next_state,'dones':done,'truncateds':truncated}
+                    buffer.add((state,action,reward,next_state,done,truncated))
                     episode_return+=reward
                     if truncated:
                         break
                 return_list.append(episode_return)
                 if len(buffer)>=minimal_size:
-                    transition=buffer.sample(batch_size)
-                    agent.update(transition)
+                    b_s, b_a, b_r, b_ns, b_d,b_t = buffer.sample(batch_size)
+                    agent.update({'states':b_s,'actions':b_a,'rewards':b_r,'next_states':b_ns,'dones':b_d})
 
                 if (i_iteration+1)%10==0:
                     pbar.set_postfix({'episodes:':num_episodes/10*i+i_iteration+1,'return':'%.3f'%np.mean(return_list[-10:])})
